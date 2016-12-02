@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+}
+
+#screen {
+  background-color: #ADD8E6;
+  border: 2px solid grey;
+  border-radius: 5px;
+  height: 50px;
+  font-size: 40px;
+}
+
+.btn {
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+}
+
+.number {
+  background-color: grey;
+}
+
+.symbol {
+  background-color: orange;
+  color: white;
+}
+
+#enter {
+  background-color: orange;
+  color: white;
+} 
+
+#clear {
+  background-color: orange;
+  color: white;
+  justify-content: flex-end; 
+}  

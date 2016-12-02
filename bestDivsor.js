@@ -1,14 +1,26 @@
 const bestDivisor = (n) => {
-  let max = 0;
-  for (let i = 9; i > 0; i--) {
+  let best = 0;
+  if (n <= 9) {
+    return n;
+  }
+  for (let i = Math.floor(n / 2); i > 0; i--) {
+    // console.log(i, 'i')
     if (n % i === 0) {
-      // console.log(i, 'i', summed(n / i), 'summed', n / i)
-      if (summed(n / i) > summed(max)) {
-        max = n / i;
+      if (summed(n / i) > summed(best)) {
+        best = n / i;
+      } 
+      if (summed(i) > summed(best)) {
+        best = i;
+      }
+      if (summed(n / i) === summed(best)) {
+        best = Math.min(n / i);
+      } 
+      if (summed(i) === summed(best)) {
+        best = Math.min(i, best)
       }
     }
   }
-  return max;
+  return console.log(best);
 }
 
 var summed = function(n) {
@@ -21,5 +33,10 @@ var summed = function(n) {
   return sum;
 }
 
-console.log(bestDivisor(100))
-console.log(bestDivisor(22))
+for (var i = 0; i < 365; i++) {
+  console.log(bestDivisor(i))
+}
+// console.log(bestDivisor(2))
+// console.log(bestDivisor(100))
+// console.log(bestDivisor(22))
+// console.log(bestDivisor(12))
