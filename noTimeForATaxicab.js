@@ -27,9 +27,11 @@ Output: Number of blocks
 
 
 const taxiCab = (input) => {
+  let matrix = {};
   let currentCoordinate = [0, 0];
   let facing = 'north';
   let instructions = [];
+
   input.split(',').forEach(direction => {
     instructions.push(direction.replace(' ', ''))
   })
@@ -98,11 +100,43 @@ const taxiCab = (input) => {
     }
   }
 
+  let fillInMatrix = (matrix, ogCoordinate, currentCoordinate, crossPath) => {
+    // for x coordinates;
+    let startingX = Math.max(ogCoordinate[0], currentCoordinate[0]);
+    let endingX = Math.min(ogCoordinate[0], currentCoordinate[0]);
+    let startingY = Math.max(ogCoordinate[1], currentCoordinate[1]);
+    let endingY = Math.min(ogCoordinate[1], currentCoordinate[1]);
+    if (startingX - endingX !== 0) {
+      while(startingX >= endingX) {
+        if (matrix[ JSON.stringify([currentCoordinate[1], startingX])]) {
+          crossPath = JSON.stringify([currentCoordinate[1], startingX]);
+        }
+        matrix[ JSON.stringify([currentCoordinate[1], startingX])] = 'x';
+        startingX--;
+      }
+    } else {
+      while(startingY >= endingY) {
+        if (matrix[ JSON.stringify([startingY, currentCoordinate[0]])]) {
+          crossPath = JSON.stringify([startingY, currentCoordinate[0]]);
+        }
+        matrix[ JSON.stringify([startingY, currentCoordinate[0]]) ] = 'x';
+        startingY--;
+      }
+    }
+    console.log(matrix)
+    return crossPath;
+  }
+
+  let crossPath = null;
+
   instructions.forEach(instruction => {
+    let temp = currentCoordinate.slice();
     currentCoordinate = returnCoordinate(facing, currentCoordinate, instruction, directions)
+    crossPath = crossPath || fillInMatrix(matrix, currentCoordinate, temp, crossPath);
     facing = returnDirection(facing, instruction)
   });
 
+  console.log(crossPath, 'crossPath')
   return Math.abs(currentCoordinate[0]) + Math.abs(currentCoordinate[1]);
 }
 
@@ -110,4 +144,4 @@ console.log(taxiCab('R2, L3'), 5)
 // console.log(taxiCab('R2, R2, R2 '), 2)
 // console.log(taxiCab('R5, L5, R5, R3'), 12)
 // console.log(taxiCab('R2, L3, R2, R4, L2, L1, R2, R4, R1, L4, L5, R5, R5, R2, R2, R1, L2, L3, L2, L1, R3, L5, R187, R1, R4, L1, R5, L3, L4, R50, L4, R2, R70, L3, L2, R4, R3, R194, L3, L4, L4, L3, L4, R4, R5, L1, L5, L4, R1, L2, R4, L5, L3, R4, L5, L5, R5, R3, R5, L2, L4, R4, L1, R3, R1, L1, L2, R2, R2, L3, R3, R2, R5, R2, R5, L3, R2, L5, R1, R2, R2, L4, L5, L1, L4, R4, R3, R1, R2, L1, L2, R4, R5, L2, R3, L4, L5, L5, L4, R4, L2, R1, R1, L2, L3, L2, R2, L4, R3, R2, L1, L3, L2, L4, L4, R2, L3, L3, R2, L4, L3, R4, R3, L2, L1, L4, R4, R2, L4, L4, L5, L1, R2, L5, L2, L3, R2, L2'))
-console.log(taxiCab('R2, L1, R2, R1, R1, L3, R3, L5, L5, L2, L1, R4, R1, R3, L5, L5, R3, L4, L4, R5, R4, R3, L1, L2, R5, R4, L2, R1, R4, R4, L2, L1, L1, R190, R3, L4, R52, R5, R3, L5, R3, R2, R1, L5, L5, L4, R2, L3, R3, L1, L3, R5, L3, L4, R3, R77, R3, L2, R189, R4, R2, L2, R2, L1, R5, R4, R4, R2, L2, L2, L5, L1, R1, R2, L3, L4, L5, R1, L1, L2, L2, R2, L3, R3, L4, L1, L5, L4, L4, R3, R5, L2, R4, R5, R3, L2, L2, L4, L2, R2, L5, L4, R3, R1, L2, R2, R4, L1, L4, L4, L2, R2, L4, L1, L1, R4, L1, L3, L2, L2, L5, R5, R2, R5, L1, L5, R2, R4, R4, L2, R5, L5, R5, R5, L4, R2, R1, R1, R3, L3, L3, L4, L3, L2, L2, L2, R2, L1, L3, R2, R5, R5, L4, R3, L3, L4, R2, L5, R5'))
+// console.log(taxiCab('R2, L1, R2, R1, R1, L3, R3, L5, L5, L2, L1, R4, R1, R3, L5, L5, R3, L4, L4, R5, R4, R3, L1, L2, R5, R4, L2, R1, R4, R4, L2, L1, L1, R190, R3, L4, R52, R5, R3, L5, R3, R2, R1, L5, L5, L4, R2, L3, R3, L1, L3, R5, L3, L4, R3, R77, R3, L2, R189, R4, R2, L2, R2, L1, R5, R4, R4, R2, L2, L2, L5, L1, R1, R2, L3, L4, L5, R1, L1, L2, L2, R2, L3, R3, L4, L1, L5, L4, L4, R3, R5, L2, R4, R5, R3, L2, L2, L4, L2, R2, L5, L4, R3, R1, L2, R2, R4, L1, L4, L4, L2, R2, L4, L1, L1, R4, L1, L3, L2, L2, L5, R5, R2, R5, L1, L5, R2, R4, R4, L2, R5, L5, R5, R5, L4, R2, R1, R1, R3, L3, L3, L4, L3, L2, L2, L2, R2, L1, L3, R2, R5, R5, L4, R3, L3, L4, R2, L5, R5'))
