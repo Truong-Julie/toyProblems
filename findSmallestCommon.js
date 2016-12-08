@@ -1,5 +1,5 @@
 // Given three integer arrays sorted in ascending order, find the smallest number that is common in all three arrays.
-// let arr1 = [6, 7, 10, 25, 30, 63, 64];
+// let arr1 = [6, s7, 10, 25, 30, 63, 64];
 let arr1 = [7, 10, 25, 30, 63, 64];
 let arr2 = [-1, 4, 5, 6, 7, 8, 50];
 let arr3 = [1, 6, 10, 14];
