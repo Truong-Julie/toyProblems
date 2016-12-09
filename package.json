@@ -1,0 +1,22 @@
+{
+  "name": "toy_problems",
+  "version": "1.0.0",
+  "description": "",
+  "main": "armyMap.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Truong-Julie/toyProblems.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Truong-Julie/toyProblems/issues"
+  },
+  "homepage": "https://github.com/Truong-Julie/toyProblems#readme",
+  "dependencies": {
+    "blueimp-md5": "^2.6.0"
+  }
+}
