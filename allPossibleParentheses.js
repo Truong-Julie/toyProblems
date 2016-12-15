@@ -21,6 +21,7 @@ const allPossibleParentheses = (n) => {
   generatePossibleParentheses('', n, 0);
   return results;
 }
+
 // console.log(allPossibleParentheses(3));
 
 // let print_all_parentheses_rec = function(n, left_count, right_count, output) {
