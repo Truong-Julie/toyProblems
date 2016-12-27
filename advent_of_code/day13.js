@@ -50,14 +50,12 @@ const isWall = (x, y, favoriteNum) => {
   return false;
 }
 
-1011010
 // console.log(isWall(2, 0))
 // console.log(isWall(0, 2))
 // console.log(isWall(0, 3))
 // console.log(isWall(7, 4))
 // console.log(isWall(6, 9))
 // console.log(isWall(1, 1))
-
 
 // build the matrix
 class Maze {
@@ -72,6 +70,8 @@ class Maze {
       for (let col = 0; col < n; col++) {
         if (isWall(col, row, favoriteNum)) {
           maze[row].push('#');
+        } else if ( col === 31 && row === 39) {
+          maze[row].push('X');
         } else {
           maze[row].push('.');
         }
@@ -81,10 +81,60 @@ class Maze {
   }
 }
 
-let myMaze = new Maze(10, 10);
-myMaze.maze.forEach(row => {
-  console.log(row.join(''));
-})
+let myMaze = new Maze(200, 1350);
+
+const mazePaths = (matrix, finalRow, finalCol) => {
+  let solutions = {};
+  // let solutions = [];
+  // let min = Infinity;
+  let paths = 0;
+  const countPaths = (currentRow, currentCol, steps) => {
+    steps = steps || 0;
+    if (!matrix[currentRow] || !matrix[currentRow][currentCol]) {
+      // console.log('GOT HERE')
+      return;
+    }
+    // keep robot away from wall
+    if (matrix[currentRow][currentCol] === '#' || matrix[currentRow][currentCol] === '0') {
+      // console.log('FOUND A WALL', steps)
+      return;
+    }
+    // check if you're at the final position
+    if (!solutions[`${currentRow}-${currentCol}`]) {
+      solutions[`${currentRow}-${currentCol}`] = true;
+    }
+    if (steps === 50) {
+      return;
+    }
+    // if (currentRow === finalRow && currentCol === finalCol) {
+    //   // console.log('AT DESTINATION')
+    //   solutions.push(steps);
+    //   if (steps < min) {
+    //     min = steps;
+    //   }
+    //   return;
+    // }
+
+    matrix[currentRow][currentCol] = '0';
+    countPaths(currentRow + 1, currentCol, steps + 1);
+    countPaths(currentRow - 1, currentCol, steps + 1);
+    countPaths(currentRow, currentCol + 1, steps + 1);
+    countPaths(currentRow, currentCol - 1, steps + 1);
+    matrix[currentRow][currentCol] = '.';
+  }
+  countPaths(1, 1)
+  // console.log('solutions:', solutions);
+  for (let keys in solutions) {
+    paths += 1;
+  }
+  console.log(paths)
+  return paths;
+}
+
+mazePaths(myMaze.maze.slice(), 39, 31)
+// myMaze.maze.forEach(row => {
+//   console.log(row.join(''));
+// })
 
 // create function given the coordinates if the spot is wall of open space
 // recurize, counting steps, add any valid solution to an array and find the minimum
